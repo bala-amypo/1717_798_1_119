@@ -21,7 +21,6 @@ public class StockServiceImpl implements StockService {
     
     @Override
     public Stock createStock(Stock stock) {
-        // Check for duplicate ticker
         stockRepository.findByTicker(stock.getTicker())
             .ifPresent(s -> {
                 throw new ValidationException("Duplicate ticker: " + stock.getTicker());
@@ -34,8 +33,6 @@ public class StockServiceImpl implements StockService {
     public Stock updateStock(long id, Stock stock) {
         Stock existingStock = stockRepository.findById(id)
             .orElseThrow(() -> new ValidationException("Not found"));
-        
-        // Check for duplicate ticker if changed
         if (!existingStock.getTicker().equals(stock.getTicker())) {
             stockRepository.findByTicker(stock.getTicker())
                 .ifPresent(s -> {

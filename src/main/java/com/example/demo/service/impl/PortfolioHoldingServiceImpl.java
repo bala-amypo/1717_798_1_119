@@ -32,12 +32,11 @@ public class PortfolioHoldingServiceImpl implements PortfolioHoldingService {
     
     @Override
     public PortfolioHolding createHolding(PortfolioHolding holding) {
-        // Validate quantity
         if (holding.getQuantity() <= 0) {
             throw new ValidationException("Quantity must be > 0");
         }
         
-        // Check if portfolio exists and is active
+
         UserPortfolio portfolio = userPortfolioRepository.findById(holding.getPortfolio().getId())
             .orElseThrow(() -> new ValidationException("Portfolio not found"));
         
@@ -45,7 +44,7 @@ public class PortfolioHoldingServiceImpl implements PortfolioHoldingService {
             throw new ValidationException("Portfolio is not active");
         }
         
-        // Check if stock exists and is active
+
         Stock stock = stockRepository.findById(holding.getStock().getId())
             .orElseThrow(() -> new ValidationException("Stock not found"));
         
@@ -63,7 +62,7 @@ public class PortfolioHoldingServiceImpl implements PortfolioHoldingService {
     public PortfolioHolding updateHolding(long id, PortfolioHolding holding) {
         PortfolioHolding existingHolding = getHoldingById(id);
         
-        // Validate quantity
+
         if (holding.getQuantity() <= 0) {
             throw new ValidationException("Quantity must be > 0");
         }

@@ -22,13 +22,11 @@ public class UserServiceImpl implements UserService {
     
     @Override
     public User register(User user) {
-        // Check for duplicate email
+      
         userRepository.findByEmail(user.getEmail())
             .ifPresent(u -> {
                 throw new ValidationException("Duplicate email: " + user.getEmail());
             });
-        
-        // Hash password
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         
         return userRepository.save(user);

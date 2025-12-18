@@ -21,7 +21,7 @@ public class UserPortfolioServiceImpl implements UserPortfolioService {
     
     @Override
     public UserPortfolio createPortfolio(UserPortfolio portfolio) {
-        // Check for duplicate portfolio name per user
+    
         List<UserPortfolio> existingPortfolios = userPortfolioRepository.findByUserId(portfolio.getUserId());
         boolean duplicateName = existingPortfolios.stream()
             .anyMatch(p -> p.getPortfolioName().equals(portfolio.getPortfolioName()));
@@ -37,7 +37,7 @@ public class UserPortfolioServiceImpl implements UserPortfolioService {
     public UserPortfolio updatePortfolio(long id, UserPortfolio portfolio) {
         UserPortfolio existingPortfolio = getPortfolioById(id);
         
-        // Check for duplicate portfolio name if changed
+    
         if (!existingPortfolio.getPortfolioName().equals(portfolio.getPortfolioName())) {
             List<UserPortfolio> userPortfolios = userPortfolioRepository.findByUserId(portfolio.getUserId());
             boolean duplicateName = userPortfolios.stream()

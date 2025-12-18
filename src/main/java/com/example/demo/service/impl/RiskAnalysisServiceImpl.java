@@ -34,18 +34,18 @@ public class RiskAnalysisServiceImpl implements RiskAnalysisService {
     
     @Override
     public RiskAnalysisResult analyzePortfolio(long portfolioId) {
-        // Get portfolio
+
         UserPortfolio portfolio = userPortfolioRepository.findById(portfolioId)
             .orElseThrow(() -> new ValidationException("Portfolio not found"));
         
-        // Get holdings for portfolio
+
         List<PortfolioHolding> holdings = portfolioHoldingRepository.findByPortfolioId(portfolioId);
         
         if (holdings.isEmpty()) {
             throw new ValidationException("No holdings found in portfolio");
         }
         
-        // Calculate total market value
+
         BigDecimal totalValue = holdings.stream()
             .map(PortfolioHolding::getMarketValue)
             .reduce(BigDecimal.ZERO, BigDecimal::add);
@@ -54,7 +54,7 @@ public class RiskAnalysisServiceImpl implements RiskAnalysisService {
             throw new ValidationException("Portfolio has zero or negative total value");
         }
         
-        // Calculate stock percentages
+
         Map<String, BigDecimal> stockPercentages = holdings.stream()
             .collect(Collectors.groupingBy(
                 holding -> holding.getStock().getTicker(),
@@ -71,7 +71,7 @@ public class RiskAnalysisServiceImpl implements RiskAnalysisService {
                     .multiply(BigDecimal.valueOf(100))
             ));
         
-        // Calculate sector percentages
+
         Map<String, BigDecimal> sectorPercentages = holdings.stream()
             .collect(Collectors.groupingBy(
                 holding -> holding.getStock().getSector(),
@@ -88,7 +88,6 @@ public class RiskAnalysisServiceImpl implements RiskAnalysisService {
                     .multiply(BigDecimal.valueOf(100))
             ));
         
-        // Find highest percentages
         Double highestStockPercentage = stockPercentages.values().stream()
             .map(BigDecimal::doubleValue)
             .max(Double::compareTo)
@@ -99,11 +98,10 @@ public class RiskAnalysisServiceImpl implements RiskAnalysisService {
             .max(Double::compareTo)
             .orElse(0.0);
         
-        // Get active threshold
+        
         RiskThreshold activeThreshold = riskThresholdRepository.findByActiveTrue()
             .orElseThrow(() -> new ValidationException("No active risk threshold found"));
         
-        // Determine if high risk
         boolean isHighRisk = false;
         String notes = "";
         
@@ -126,7 +124,7 @@ public class RiskAnalysisServiceImpl implements RiskAnalysisService {
             notes = "Within risk thresholds";
         }
         
-        // Create and save analysis result
+
         RiskAnalysisResult result = new RiskAnalysisResult();
         result.setPortfolio(portfolio);
         result.setHighestStockPercentage(highestStockPercentage);

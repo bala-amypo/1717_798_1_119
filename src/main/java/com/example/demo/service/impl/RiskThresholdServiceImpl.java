@@ -21,10 +21,10 @@ public class RiskThresholdServiceImpl implements RiskThresholdService {
     
     @Override
     public RiskThreshold createThreshold(RiskThreshold threshold) {
-        // Validate percentages
+
         validatePercentages(threshold);
         
-        // If this threshold is active, deactivate others
+
         if (Boolean.TRUE.equals(threshold.getActive())) {
             deactivateOtherThresholds();
         }
@@ -36,10 +36,10 @@ public class RiskThresholdServiceImpl implements RiskThresholdService {
     public RiskThreshold updateThreshold(long id, RiskThreshold threshold) {
         RiskThreshold existingThreshold = getThresholdById(id);
         
-        // Validate percentages
+
         validatePercentages(threshold);
         
-        // If this threshold is being activated, deactivate others
+
         if (Boolean.TRUE.equals(threshold.getActive()) && 
             !Boolean.TRUE.equals(existingThreshold.getActive())) {
             deactivateOtherThresholds();
