@@ -30,7 +30,16 @@
 //             .sessionManagement(session -> session
 //                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 //             .authorizeHttpRequests(auth -> auth
-//                 .requestMatchers("/auth/**", "/swagger-ui/**", "/v3/api-docs/**", "/status").permitAll()
+//                 // Allow Swagger UI and API docs without authentication
+//                 .requestMatchers(
+//                     "/auth/**", 
+//                     "/swagger-ui/**", 
+//                     "/swagger-ui.html",
+//                     "/v3/api-docs/**",
+//                     "/swagger-resources/**",
+//                     "/webjars/**",
+//                     "/status"
+//                 ).permitAll()
 //                 .requestMatchers("/api/**").authenticated()
 //                 .anyRequest().authenticated())
 //             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
