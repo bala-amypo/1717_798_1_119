@@ -2,11 +2,14 @@ package com.example.demo.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import java.time.LocalDateTime;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 @Entity
-@Data
 @Table(name = "stocks")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Stock {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,13 +18,16 @@ public class Stock {
     @Column(unique = true, nullable = false)
     private String ticker;
     
+    @Column(name = "company_name")
     private String companyName;
+    
     private String sector;
     
     @Column(nullable = false)
     private Boolean active = true;
     
     @PrePersist
+    @PreUpdate
     public void prePersist() {
         if (active == null) active = true;
     }
