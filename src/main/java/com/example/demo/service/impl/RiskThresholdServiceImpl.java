@@ -3,9 +3,11 @@ package com.example.demo.service;
 import com.example.demo.model.RiskThreshold;
 import com.example.demo.repository.RiskThresholdRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+@Transactional
 public class RiskThresholdServiceImpl implements RiskThresholdService {
     
     private final RiskThresholdRepository thresholdRepository;

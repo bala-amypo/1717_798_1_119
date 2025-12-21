@@ -7,9 +7,11 @@ import com.example.demo.repository.PortfolioHoldingRepository;
 import com.example.demo.repository.StockRepository;
 import com.example.demo.repository.UserPortfolioRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+@Transactional
 public class PortfolioHoldingServiceImpl implements PortfolioHoldingService {
     
     private final PortfolioHoldingRepository holdingRepository;
@@ -32,10 +34,10 @@ public class PortfolioHoldingServiceImpl implements PortfolioHoldingService {
         }
         
         UserPortfolio portfolio = portfolioRepository.findById(holding.getPortfolio().getId())
-            .orElseThrow(() -> new RuntimeException("Portfolio not found"));
+            .orElseThrow(() -> new RuntimeException("Not found"));
         
         Stock stock = stockRepository.findById(holding.getStock().getId())
-            .orElseThrow(() -> new RuntimeException("Stock not found"));
+            .orElseThrow(() -> new RuntimeException("Not found"));
         
         if (!stock.getActive()) {
             throw new RuntimeException("Stock is not active");

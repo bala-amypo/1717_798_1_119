@@ -3,9 +3,11 @@ package com.example.demo.service;
 import com.example.demo.model.UserPortfolio;
 import com.example.demo.repository.UserPortfolioRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+@Transactional
 public class UserPortfolioServiceImpl implements UserPortfolioService {
     
     private final UserPortfolioRepository portfolioRepository;

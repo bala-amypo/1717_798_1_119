@@ -3,12 +3,15 @@ package com.example.demo.service;
 import com.example.demo.model.*;
 import com.example.demo.repository.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class RiskAnalysisServiceImpl implements RiskAnalysisService {
     
     private final RiskAnalysisResultRepository analysisRepository;
@@ -30,7 +33,7 @@ public class RiskAnalysisServiceImpl implements RiskAnalysisService {
     @Override
     public RiskAnalysisResult analyzePortfolio(long portfolioId) {
         UserPortfolio portfolio = portfolioRepository.findById(portfolioId)
-            .orElseThrow(() -> new RuntimeException("Portfolio not found"));
+            .orElseThrow(() -> new RuntimeException("Not found"));
         
         List<PortfolioHolding> holdings = holdingRepository.findByPortfolioId(portfolioId);
         
@@ -59,12 +62,12 @@ public class RiskAnalysisServiceImpl implements RiskAnalysisService {
             ));
         
         double highestStockPercent = stockValues.values().stream()
-            .mapToDouble(v -> v.divide(totalValue, 4, BigDecimal.ROUND_HALF_UP).doubleValue() * 100)
+            .mapToDouble(v -> v.divide(totalValue, 4, RoundingMode.HALF_UP).doubleValue() * 100)
             .max()
             .orElse(0.0);
         
         double highestSectorPercent = sectorValues.values().stream()
-            .mapToDouble(v -> v.divide(totalValue, 4, BigDecimal.ROUND_HALF_UP).doubleValue() * 100)
+            .mapToDouble(v -> v.divide(totalValue, 4, RoundingMode.HALF_UP).doubleValue() * 100)
             .max()
             .orElse(0.0);
         
