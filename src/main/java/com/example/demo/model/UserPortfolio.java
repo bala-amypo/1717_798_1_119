@@ -1,43 +1,41 @@
-// package com.example.demo.model;
+package com.example.demo.model;
 
-// import jakarta.persistence.*;
-// import lombok.Data;
-// import java.sql.Timestamp;
-// import java.time.LocalDateTime;
+import jakarta.persistence.*;
+import lombok.Data;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
-// @Entity
-// @Table(name = "user_portfolios")
-// @Data
-// public class UserPortfolio {
-//     @Id
-//     @GeneratedValue(strategy = GenerationType.IDENTITY)
-//     private Long id;
+@Entity
+@Data
+@Table(name = "user_portfolios", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"userId", "portfolioName"})
+})
+public class UserPortfolio {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     
-//     @Column(name = "user_id", nullable = false)
-//     private Long userId;
+    private Long userId;
     
-//     @Column(name = "portfolio_name", nullable = false)
-//     private String portfolioName;
+    private String portfolioName;
     
-//     @Column(name = "created_at")
-//     private Timestamp createdAt;
+    @Column(updatable = false)
+    private Timestamp createdAt;
     
-//     @Column(name = "updated_at")
-//     private Timestamp updatedAt;
+    private Timestamp updatedAt;
     
-//     @Column(nullable = false)
-//     private Boolean active = true;
+    @Column(nullable = false)
+    private Boolean active = true;
     
-//     @PrePersist
-//     protected void onCreate() {
-//         createdAt = new Timestamp(System.currentTimeMillis());
-//         if (active == null) {
-//             active = true;
-//         }
-//     }
+    @PrePersist
+    protected void onCreate() {
+        createdAt = new Timestamp(System.currentTimeMillis());
+        updatedAt = createdAt;
+        if (active == null) active = true;
+    }
     
-//     @PreUpdate
-//     protected void onUpdate() {
-//         updatedAt = new Timestamp(System.currentTimeMillis());
-//     }
-// }
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = new Timestamp(System.currentTimeMillis());
+    }
+}

@@ -1,36 +1,28 @@
-// package com.example.demo.model;
+package com.example.demo.model;
 
-// import jakarta.persistence.*;
-// import lombok.Data;
-// import java.time.LocalDateTime;
+import jakarta.persistence.*;
+import lombok.Data;
+import java.time.LocalDateTime;
 
-// @Entity
-// @Table(name = "stocks")
-// @Data
-// public class Stock {
-//     @Id
-//     @GeneratedValue(strategy = GenerationType.IDENTITY)
-//     private Long id;
+@Entity
+@Data
+@Table(name = "stocks")
+public class Stock {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     
-//     @Column(unique = true, nullable = false)
-//     private String ticker;
+    @Column(unique = true, nullable = false)
+    private String ticker;
     
-//     @Column(name = "company_name", nullable = false)
-//     private String companyName;
+    private String companyName;
+    private String sector;
     
-//     private String sector;
+    @Column(nullable = false)
+    private Boolean active = true;
     
-//     @Column(nullable = false)
-//     private Boolean active = true;
-    
-//     @Column(name = "created_at")
-//     private LocalDateTime createdAt;
-    
-//     @PrePersist
-//     protected void onCreate() {
-//         createdAt = LocalDateTime.now();
-//         if (active == null) {
-//             active = true;
-//         }
-//     }
-// }
+    @PrePersist
+    public void prePersist() {
+        if (active == null) active = true;
+    }
+}

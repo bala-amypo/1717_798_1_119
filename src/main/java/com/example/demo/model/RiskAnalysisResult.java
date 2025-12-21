@@ -1,37 +1,31 @@
-// package com.example.demo.model;
+package com.example.demo.model;
 
-// import jakarta.persistence.*;
-// import lombok.Data;
-// import java.sql.Timestamp;
+import jakarta.persistence.*;
+import lombok.Data;
+import java.sql.Timestamp;
 
-// @Entity
-// @Table(name = "risk_analysis_results")
-// @Data
-// public class RiskAnalysisResult {
-//     @Id
-//     @GeneratedValue(strategy = GenerationType.IDENTITY)
-//     private Long id;
+@Entity
+@Data
+@Table(name = "risk_analysis_results")
+public class RiskAnalysisResult {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     
-//     @ManyToOne
-//     @JoinColumn(name = "portfolio_id", nullable = false)
-//     private UserPortfolio portfolio;
+    @ManyToOne
+    @JoinColumn(name = "portfolio_id", nullable = false)
+    private UserPortfolio portfolio;
     
-//     @Column(name = "analysis_date")
-//     private Timestamp analysisDate;
+    private Timestamp analysisDate;
     
-//     @Column(name = "highest_stock_percentage")
-//     private Double highestStockPercentage;
+    private Double highestStockPercentage;
+    private Double highestSectorPercentage;
     
-//     @Column(name = "highest_sector_percentage")
-//     private Double highestSectorPercentage;
+    private Boolean isHighRisk;
+    private String notes;
     
-//     @Column(name = "is_high_risk")
-//     private Boolean isHighRisk;
-    
-//     private String notes;
-    
-//     @PrePersist
-//     protected void onCreate() {
-//         analysisDate = new Timestamp(System.currentTimeMillis());
-//     }
-// }
+    @PrePersist
+    protected void onCreate() {
+        analysisDate = new Timestamp(System.currentTimeMillis());
+    }
+}
