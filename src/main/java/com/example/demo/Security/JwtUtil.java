@@ -2,6 +2,7 @@ package com.example.demo.security;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import javax.crypto.SecretKey;
 import java.util.Date;
@@ -11,7 +12,8 @@ public class JwtUtil {
     private final SecretKey secretKey;
     private final long validityInMs;
     
-    public JwtUtil(String secret, long validityInMs) {
+    public JwtUtil(@Value("${jwt.secret}") String secret, 
+                   @Value("${jwt.validity}") long validityInMs) {
         this.secretKey = Keys.hmacShaKeyFor(secret.getBytes());
         this.validityInMs = validityInMs;
     }

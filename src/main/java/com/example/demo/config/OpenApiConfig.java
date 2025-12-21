@@ -1,20 +1,35 @@
-// package com.example.demo.config;
+package com.example.demo.config;
 
-// import io.swagger.v3.oas.models.OpenAPI;
-// import io.swagger.v3.oas.models.servers.Server;
-// import org.springframework.context.annotation.Bean;
-// import org.springframework.context.annotation.Configuration;
-// import java.util.List;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.info.Contact;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.info.License;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
+import org.springframework.context.annotation.Configuration;
 
-// @Configuration
-// public class OpenApiConfig {
-
-//     @Bean
-//     public OpenAPI customOpenAPI() {
-//         return new OpenAPI()
-
-//                 .servers(List.of(
-//                         new Server().url("https://9005.vs.amypo.ai")
-//                 ));
-//         }
-// }
+@Configuration
+@OpenAPIDefinition(
+    info = @Info(
+        title = "Stock Portfolio Risk Analyzer API",
+        version = "1.0",
+        description = "API for analyzing stock portfolio risk",
+        contact = @Contact(
+            name = "Support",
+            email = "support@example.com"
+        ),
+        license = @License(
+            name = "Apache 2.0",
+            url = "http://www.apache.org/licenses/LICENSE-2.0.html"
+        )
+    )
+)
+@SecurityScheme(
+    name = "bearerAuth",
+    type = SecuritySchemeType.HTTP,
+    bearerFormat = "JWT",
+    scheme = "bearer",
+    description = "JWT authentication"
+)
+public class OpenApiConfig {
+}

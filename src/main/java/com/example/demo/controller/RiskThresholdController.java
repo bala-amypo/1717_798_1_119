@@ -1,57 +1,53 @@
-// package com.example.demo.controller;
+package com.example.demo.controller;
 
-// import com.example.demo.model.RiskThreshold;
-// import com.example.demo.service.RiskThresholdService;
-// import io.swagger.v3.oas.annotations.Operation;
-// import io.swagger.v3.oas.annotations.tags.Tag;
-// import org.springframework.http.ResponseEntity;
-// import org.springframework.web.bind.annotation.*;
+import com.example.demo.model.RiskThreshold;
+import com.example.demo.service.RiskThresholdService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
-// import java.util.List;
-
-// @RestController
-// @RequestMapping("/api/risk-thresholds")
-// @Tag(name = "Risk Threshold Management", description = "APIs for managing risk thresholds")
-// public class RiskThresholdController {
+@RestController
+@RequestMapping("/api/risk-thresholds")
+@Tag(name = "Risk Thresholds", description = "Risk threshold management endpoints")
+@SecurityRequirement(name = "bearerAuth")
+public class RiskThresholdController {
     
-//     private final RiskThresholdService thresholdService;
+    private final RiskThresholdService thresholdService;
     
-//     public RiskThresholdController(RiskThresholdService thresholdService) {
-//         this.thresholdService = thresholdService;
-//     }
+    public RiskThresholdController(RiskThresholdService thresholdService) {
+        this.thresholdService = thresholdService;
+    }
     
-//     @PostMapping("/")
-//     @Operation(summary = "Create a new threshold")
-//     public ResponseEntity<RiskThreshold> createThreshold(@RequestBody RiskThreshold threshold) {
-//         RiskThreshold created = thresholdService.createThreshold(threshold);
-//         return ResponseEntity.ok(created);
-//     }
+    @PostMapping("/")
+    @Operation(summary = "Create a new threshold")
+    public ResponseEntity<RiskThreshold> createThreshold(@RequestBody RiskThreshold threshold) {
+        return ResponseEntity.ok(thresholdService.createThreshold(threshold));
+    }
     
-//     @PutMapping("/{id}")
-//     @Operation(summary = "Update a threshold")
-//     public ResponseEntity<RiskThreshold> updateThreshold(@PathVariable long id, @RequestBody RiskThreshold threshold) {
-//         RiskThreshold updated = thresholdService.updateThreshold(id, threshold);
-//         return ResponseEntity.ok(updated);
-//     }
+    @PutMapping("/{id}")
+    @Operation(summary = "Update a threshold")
+    public ResponseEntity<RiskThreshold> updateThreshold(@PathVariable long id, @RequestBody RiskThreshold threshold) {
+        return ResponseEntity.ok(thresholdService.updateThreshold(id, threshold));
+    }
     
-//     @GetMapping("/active")
-//     @Operation(summary = "Get active threshold")
-//     public ResponseEntity<RiskThreshold> getActiveThreshold() {
-//         RiskThreshold threshold = thresholdService.getActiveThreshold();
-//         return ResponseEntity.ok(threshold);
-//     }
+    @GetMapping("/active")
+    @Operation(summary = "Get active threshold")
+    public ResponseEntity<RiskThreshold> getActiveThreshold() {
+        return ResponseEntity.ok(thresholdService.getActiveThreshold());
+    }
     
-//     @GetMapping("/{id}")
-//     @Operation(summary = "Get threshold by ID")
-//     public ResponseEntity<RiskThreshold> getThreshold(@PathVariable long id) {
-//         RiskThreshold threshold = thresholdService.getThresholdById(id);
-//         return ResponseEntity.ok(threshold);
-//     }
+    @GetMapping("/{id}")
+    @Operation(summary = "Get threshold by ID")
+    public ResponseEntity<RiskThreshold> getThreshold(@PathVariable long id) {
+        return ResponseEntity.ok(thresholdService.getThresholdById(id));
+    }
     
-//     @GetMapping("/")
-//     @Operation(summary = "List all thresholds")
-//     public ResponseEntity<List<RiskThreshold>> getAllThresholds() {
-//         List<RiskThreshold> thresholds = thresholdService.getAllThresholds();
-//         return ResponseEntity.ok(thresholds);
-//     }
-// }
+    @GetMapping("/")
+    @Operation(summary = "Get all thresholds")
+    public ResponseEntity<List<RiskThreshold>> getAllThresholds() {
+        return ResponseEntity.ok(thresholdService.getAllThresholds());
+    }
+}
