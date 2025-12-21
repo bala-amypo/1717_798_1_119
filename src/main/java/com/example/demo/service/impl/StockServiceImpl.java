@@ -3,9 +3,11 @@ package com.example.demo.service;
 import com.example.demo.model.Stock;
 import com.example.demo.repository.StockRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+@Transactional
 public class StockServiceImpl implements StockService {
     
     private final StockRepository stockRepository;
