@@ -1,68 +1,60 @@
-// package com.example.demo.service.impl;
+package com.example.demo.service;
 
-// import com.example.demo.exception.ValidationException;
-// import com.example.demo.model.Stock;
-// import com.example.demo.repository.StockRepository;
-// import com.example.demo.service.StockService;
-// import org.springframework.stereotype.Service;
-// import org.springframework.transaction.annotation.Transactional;
+import com.example.demo.model.Stock;
+import com.example.demo.repository.StockRepository;
+import org.springframework.stereotype.Service;
+import java.util.List;
 
-// import java.util.List;
-
-// @Service
-// @Transactional
-// public class StockServiceImpl implements StockService {
+@Service
+public class StockServiceImpl implements StockService {
     
-//     private final StockRepository stockRepository;
+    private final StockRepository stockRepository;
     
-//     public StockServiceImpl(StockRepository stockRepository) {
-//         this.stockRepository = stockRepository;
-//     }
+    public StockServiceImpl(StockRepository stockRepository) {
+        this.stockRepository = stockRepository;
+    }
     
-//     @Override
-//     public Stock createStock(Stock stock) {
-//         stockRepository.findByTicker(stock.getTicker())
-//             .ifPresent(s -> {
-//                 throw new ValidationException("Duplicate ticker: " + stock.getTicker());
-//             });
+    @Override
+    public Stock createStock(Stock stock) {
+        if (stockRepository.findByTicker(stock.getTicker()).isPresent()) {
+            throw new RuntimeException("Duplicate ticker");
+        }
+        return stockRepository.save(stock);
+    }
+    
+    @Override
+    public Stock updateStock(long id, Stock stock) {
+        Stock existing = stockRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Not found"));
         
-//         return stockRepository.save(stock);
-//     }
-    
-//     @Override
-//     public Stock updateStock(long id, Stock stock) {
-//         Stock existingStock = stockRepository.findById(id)
-//             .orElseThrow(() -> new ValidationException("Not found"));
-//         if (!existingStock.getTicker().equals(stock.getTicker())) {
-//             stockRepository.findByTicker(stock.getTicker())
-//                 .ifPresent(s -> {
-//                     throw new ValidationException("Duplicate ticker: " + stock.getTicker());
-//                 });
-//         }
+        if (!existing.getTicker().equals(stock.getTicker()) && 
+            stockRepository.findByTicker(stock.getTicker()).isPresent()) {
+            throw new RuntimeException("Duplicate ticker");
+        }
         
-//         existingStock.setTicker(stock.getTicker());
-//         existingStock.setCompanyName(stock.getCompanyName());
-//         existingStock.setSector(stock.getSector());
-//         existingStock.setActive(stock.getActive());
+        existing.setTicker(stock.getTicker());
+        existing.setCompanyName(stock.getCompanyName());
+        existing.setSector(stock.getSector());
+        existing.setActive(stock.getActive());
         
-//         return stockRepository.save(existingStock);
-//     }
+        return stockRepository.save(existing);
+    }
     
-//     @Override
-//     public Stock getStockById(long id) {
-//         return stockRepository.findById(id)
-//             .orElseThrow(() -> new ValidationException("Not found"));
-//     }
+    @Override
+    public Stock getStockById(long id) {
+        return stockRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Not found"));
+    }
     
-//     @Override
-//     public List<Stock> getAllStocks() {
-//         return stockRepository.findAll();
-//     }
+    @Override
+    public List<Stock> getAllStocks() {
+        return stockRepository.findAll();
+    }
     
-//     @Override
-//     public void deactivateStock(long id) {
-//         Stock stock = getStockById(id);
-//         stock.setActive(false);
-//         stockRepository.save(stock);
-//     }
-// }
+    @Override
+    public void deactivateStock(long id) {
+        Stock stock = getStockById(id);
+        stock.setActive(false);
+        stockRepository.save(stock);
+    }
+}

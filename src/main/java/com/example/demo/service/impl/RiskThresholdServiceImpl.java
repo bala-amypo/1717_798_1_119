@@ -1,98 +1,92 @@
-// package com.example.demo.service.impl;
+package com.example.demo.service;
 
-// import com.example.demo.exception.ValidationException;
-// import com.example.demo.model.RiskThreshold;
-// import com.example.demo.repository.RiskThresholdRepository;
-// import com.example.demo.service.RiskThresholdService;
-// import org.springframework.stereotype.Service;
-// import org.springframework.transaction.annotation.Transactional;
+import com.example.demo.model.RiskThreshold;
+import com.example.demo.repository.RiskThresholdRepository;
+import org.springframework.stereotype.Service;
+import java.util.List;
 
-// import java.util.List;
-
-// @Service
-// @Transactional
-// public class RiskThresholdServiceImpl implements RiskThresholdService {
+@Service
+public class RiskThresholdServiceImpl implements RiskThresholdService {
     
-//     private final RiskThresholdRepository riskThresholdRepository;
+    private final RiskThresholdRepository thresholdRepository;
     
-//     public RiskThresholdServiceImpl(RiskThresholdRepository riskThresholdRepository) {
-//         this.riskThresholdRepository = riskThresholdRepository;
-//     }
+    public RiskThresholdServiceImpl(RiskThresholdRepository thresholdRepository) {
+        this.thresholdRepository = thresholdRepository;
+    }
     
-//     @Override
-//     public RiskThreshold createThreshold(RiskThreshold threshold) {
-
-//         validatePercentages(threshold);
+    @Override
+    public RiskThreshold createThreshold(RiskThreshold threshold) {
+        if (threshold.getMaxSingleStockPercentage() < 0 || 
+            threshold.getMaxSingleStockPercentage() > 100 ||
+            threshold.getMaxSectorPercentage() < 0 || 
+            threshold.getMaxSectorPercentage() > 100) {
+            throw new RuntimeException("Percentages must be between 0 and 100");
+        }
         
-
-//         if (Boolean.TRUE.equals(threshold.getActive())) {
-//             deactivateOtherThresholds();
-//         }
+        if (threshold.getActive() != null && threshold.getActive()) {
+            thresholdRepository.findByActiveTrue().ifPresent(active -> {
+                active.setActive(false);
+                thresholdRepository.save(active);
+            });
+        }
         
-//         return riskThresholdRepository.save(threshold);
-//     }
+        return thresholdRepository.save(threshold);
+    }
     
-//     @Override
-//     public RiskThreshold updateThreshold(long id, RiskThreshold threshold) {
-//         RiskThreshold existingThreshold = getThresholdById(id);
+    @Override
+    public RiskThreshold updateThreshold(long id, RiskThreshold threshold) {
+        RiskThreshold existing = thresholdRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Not found"));
         
-
-//         validatePercentages(threshold);
+        if (threshold.getThresholdName() != null) {
+            existing.setThresholdName(threshold.getThresholdName());
+        }
         
-
-//         if (Boolean.TRUE.equals(threshold.getActive()) && 
-//             !Boolean.TRUE.equals(existingThreshold.getActive())) {
-//             deactivateOtherThresholds();
-//         }
+        if (threshold.getMaxSingleStockPercentage() != null) {
+            if (threshold.getMaxSingleStockPercentage() < 0 || 
+                threshold.getMaxSingleStockPercentage() > 100) {
+                throw new RuntimeException("Percentages must be between 0 and 100");
+            }
+            existing.setMaxSingleStockPercentage(threshold.getMaxSingleStockPercentage());
+        }
         
-//         existingThreshold.setThresholdName(threshold.getThresholdName());
-//         existingThreshold.setMaxSingleStockPercentage(threshold.getMaxSingleStockPercentage());
-//         existingThreshold.setMaxSectorPercentage(threshold.getMaxSectorPercentage());
-//         existingThreshold.setActive(threshold.getActive());
+        if (threshold.getMaxSectorPercentage() != null) {
+            if (threshold.getMaxSectorPercentage() < 0 || 
+                threshold.getMaxSectorPercentage() > 100) {
+                throw new RuntimeException("Percentages must be between 0 and 100");
+            }
+            existing.setMaxSectorPercentage(threshold.getMaxSectorPercentage());
+        }
         
-//         return riskThresholdRepository.save(existingThreshold);
-//     }
+        if (threshold.getActive() != null && threshold.getActive()) {
+            thresholdRepository.findByActiveTrue().ifPresent(active -> {
+                if (!active.getId().equals(id)) {
+                    active.setActive(false);
+                    thresholdRepository.save(active);
+                }
+            });
+            existing.setActive(true);
+        } else if (threshold.getActive() != null) {
+            existing.setActive(false);
+        }
+        
+        return thresholdRepository.save(existing);
+    }
     
-//     @Override
-//     public RiskThreshold getActiveThreshold() {
-//         return riskThresholdRepository.findByActiveTrue()
-//             .orElseThrow(() -> new ValidationException("No active threshold found"));
-//     }
+    @Override
+    public RiskThreshold getActiveThreshold() {
+        return thresholdRepository.findByActiveTrue()
+            .orElseThrow(() -> new RuntimeException("No active threshold found"));
+    }
     
-//     @Override
-//     public RiskThreshold getThresholdById(long id) {
-//         return riskThresholdRepository.findById(id)
-//             .orElseThrow(() -> new ValidationException("Not found"));
-//     }
+    @Override
+    public RiskThreshold getThresholdById(long id) {
+        return thresholdRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Not found"));
+    }
     
-//     @Override
-//     public List<RiskThreshold> getAllThresholds() {
-//         return riskThresholdRepository.findAll();
-//     }
-    
-//     private void validatePercentages(RiskThreshold threshold) {
-//         if (threshold.getMaxSingleStockPercentage() != null &&
-//             (threshold.getMaxSingleStockPercentage() < 0 || 
-//              threshold.getMaxSingleStockPercentage() > 100)) {
-//             throw new ValidationException("Max single stock percentage must be between 0 and 100");
-//         }
-        
-//         if (threshold.getMaxSectorPercentage() != null &&
-//             (threshold.getMaxSectorPercentage() < 0 || 
-//              threshold.getMaxSectorPercentage() > 100)) {
-//             throw new ValidationException("Max sector percentage must be between 0 and 100");
-//         }
-//     }
-    
-//     private void deactivateOtherThresholds() {
-//         List<RiskThreshold> activeThresholds = riskThresholdRepository.findAll()
-//             .stream()
-//             .filter(RiskThreshold::getActive)
-//             .toList();
-        
-//         for (RiskThreshold threshold : activeThresholds) {
-//             threshold.setActive(false);
-//             riskThresholdRepository.save(threshold);
-//         }
-//     }
-// }
+    @Override
+    public List<RiskThreshold> getAllThresholds() {
+        return thresholdRepository.findAll();
+    }
+}
