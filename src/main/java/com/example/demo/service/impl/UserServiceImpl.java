@@ -1,40 +1,38 @@
-// package com.example.demo.service.impl;
+package com.example.demo.service;
 
-// import com.example.demo.exception.ValidationException;
-// import com.example.demo.model.User;
-// import com.example.demo.repository.UserRepository;
-// import com.example.demo.service.UserService;
-// import org.springframework.security.crypto.password.PasswordEncoder;
-// import org.springframework.stereotype.Service;
-// import org.springframework.transaction.annotation.Transactional;
+import com.example.demo.model.User;
+import com.example.demo.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
-// @Service
-// @Transactional
-// public class UserServiceImpl implements UserService {
+@Service
+public class UserServiceImpl implements UserService {
     
-//     private final UserRepository userRepository;
-//     private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
     
-//     public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-//         this.userRepository = userRepository;
-//         this.passwordEncoder = passwordEncoder;
-//     }
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
     
-//     @Override
-//     public User register(User user) {
-      
-//         userRepository.findByEmail(user.getEmail())
-//             .ifPresent(u -> {
-//                 throw new ValidationException("Duplicate email: " + user.getEmail());
-//             });
-//         user.setPassword(passwordEncoder.encode(user.getPassword()));
+    @Override
+    public User register(User user) {
+        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
+            throw new RuntimeException("Email already exists");
+        }
         
-//         return userRepository.save(user);
-//     }
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        if (user.getRole() == null) {
+            user.setRole("MONITOR");
+        }
+        
+        return userRepository.save(user);
+    }
     
-//     @Override
-//     public User findByEmail(String email) {
-//         return userRepository.findByEmail(email)
-//             .orElseThrow(() -> new ValidationException("Not found"));
-//     }
-// }
+    @Override
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+}
