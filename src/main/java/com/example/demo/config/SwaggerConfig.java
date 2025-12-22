@@ -31,5 +31,5 @@ import org.springframework.context.annotation.Configuration;
     scheme = "bearer",
     description = "JWT authentication"
 )
-public class OpenApiConfig {
+public class SwaggerConfig {
 }
