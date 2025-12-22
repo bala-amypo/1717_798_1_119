@@ -1,82 +1,47 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.Stock;
-import com.example.demo.repository.StockRepository;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.demo.dto.StockDto;
+import com.example.demo.service.StockService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
-@CrossOrigin(origins = "*")  // Allow CORS for all origins
 @RestController
 @RequestMapping("/stocks")
-public class StocksController {
+public class StockController {   // ✅ class name matches file name
 
-    @Autowired
-    private StockRepository stockRepository;
+    private final StockService stockService;
 
-    @Operation(summary = "Get all stocks")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully retrieved list")
-    })
-    @GetMapping
-    public List<Stock> getAllStocks() {
-        return stockRepository.findAll();
+    public StockController(StockService stockService) {
+        this.stockService = stockService;
     }
 
-    @Operation(summary = "Get a stock by ID")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully retrieved stock"),
-            @ApiResponse(responseCode = "404", description = "Stock not found")
-    })
-    @GetMapping("/{id}")
-    public ResponseEntity<Stock> getStockById(@PathVariable Long id) {
-        Optional<Stock> stock = stockRepository.findById(id);
-        return stock.map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
-
-    @Operation(summary = "Create a new stock")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Stock created successfully")
-    })
     @PostMapping
-    public Stock createStock(@RequestBody Stock stock) {
-        return stockRepository.save(stock);
+    public ResponseEntity<StockDto> create(@RequestBody StockDto dto) {
+        return ResponseEntity.ok(stockService.createStock(dto));
     }
 
-    @Operation(summary = "Update a stock by ID")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Stock updated successfully"),
-            @ApiResponse(responseCode = "404", description = "Stock not found")
-    })
+    @GetMapping("/{id}")
+    public ResponseEntity<StockDto> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(stockService.getStockById(id));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<StockDto>> getAll() {
+        return ResponseEntity.ok(stockService.getAllStocks());
+    }
+
     @PutMapping("/{id}")
-    public ResponseEntity<Stock> updateStock(@PathVariable Long id, @RequestBody Stock updatedStock) {
-        return stockRepository.findById(id).map(stock -> {
-            stock.setTicker(updatedStock.getTicker());
-            stock.setCompanyName(updatedStock.getCompanyName());
-            stock.setSector(updatedStock.getSector());
-            stock.setActive(updatedStock.isActive());
-            stockRepository.save(stock);
-            return ResponseEntity.ok(stock);
-        }).orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<StockDto> update(
+            @PathVariable Long id,
+            @RequestBody StockDto dto) {
+        return ResponseEntity.ok(stockService.updateStock(id, dto));
     }
 
-    @Operation(summary = "Delete a stock by ID")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Stock deleted successfully"),
-            @ApiResponse(responseCode = "404", description = "Stock not found")
-    })
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteStock(@PathVariable Long id) {
-        return stockRepository.findById(id).map(stock -> {
-            stockRepository.delete(stock);
-            return ResponseEntity.noContent().build();
-        }).orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        stockService.deleteStock(id);
+        return ResponseEntity.noContent().build();   // ✅ correct Void response
     }
 }
