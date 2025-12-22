@@ -1,17 +1,17 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.Stock;
+import com.example.demo.dto.StockDto;
 import java.util.List;
 
 public interface StockService {
 
-    Stock createStock(Stock stock);
+    StockDto createStock(StockDto stockDto);
 
-    Stock getStockById(Long id);
+    StockDto getStockById(Long id);
 
-    List<Stock> getAllStocks();
+    List<StockDto> getAllStocks();
 
-    Stock updateStock(Long id, Stock stock);
+    StockDto updateStock(Long id, StockDto stockDto);
 
     void deleteStock(Long id);
 }

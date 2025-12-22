@@ -1,62 +1,83 @@
-package com.example.demo.service;
+package com.example.demo.service.impl;
 
-import com.example.demo.model.Stock;
+import com.example.demo.dto.StockDto;
+import com.example.demo.entity.Stock;
 import com.example.demo.repository.StockRepository;
+import com.example.demo.service.StockService;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
-@Transactional
 public class StockServiceImpl implements StockService {
-    
+
     private final StockRepository stockRepository;
-    
+
     public StockServiceImpl(StockRepository stockRepository) {
         this.stockRepository = stockRepository;
     }
-    
+
     @Override
-    public Stock createStock(Stock stock) {
-        if (stockRepository.findByTicker(stock.getTicker()).isPresent()) {
-            throw new RuntimeException("Duplicate ticker");
-        }
-        return stockRepository.save(stock);
+    public StockDto createStock(StockDto dto) {
+        Stock stock = mapToEntity(dto);
+        Stock saved = stockRepository.save(stock);
+        return mapToDto(saved);
     }
-    
+
     @Override
-    public Stock updateStock(long id, Stock stock) {
-        Stock existing = stockRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Not found"));
-        
-        if (!existing.getTicker().equals(stock.getTicker()) && 
-            stockRepository.findByTicker(stock.getTicker()).isPresent()) {
-            throw new RuntimeException("Duplicate ticker");
-        }
-        
-        existing.setTicker(stock.getTicker());
-        existing.setCompanyName(stock.getCompanyName());
-        existing.setSector(stock.getSector());
-        existing.setActive(stock.getActive());
-        
-        return stockRepository.save(existing);
-    }
-    
-    @Override
-    public Stock getStockById(long id) {
+    public StockDto getStockById(Long id) {
         return stockRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Not found"));
+                .map(this::mapToDto)
+                .orElse(null);
     }
-    
+
     @Override
-    public List<Stock> getAllStocks() {
-        return stockRepository.findAll();
+    public List<StockDto> getAllStocks() {
+        return stockRepository.findAll()
+                .stream()
+                .map(this::mapToDto)
+                .collect(Collectors.toList());
     }
-    
+
     @Override
-    public void deactivateStock(long id) {
-        Stock stock = getStockById(id);
-        stock.setActive(false);
-        stockRepository.save(stock);
+    public StockDto updateStock(Long id, StockDto dto) {
+        Stock stock = stockRepository.findById(id).orElse(null);
+        if (stock == null) {
+            return null;
+        }
+
+        stock.setTicker(dto.getTicker());
+        stock.setCompanyName(dto.getCompanyName());
+        stock.setSector(dto.getSector());
+        stock.setActive(dto.isActive());
+
+        return mapToDto(stockRepository.save(stock));
+    }
+
+    @Override
+    public void deleteStock(Long id) {
+        stockRepository.deleteById(id);
+    }
+
+    // ---------------- MAPPING METHODS ----------------
+
+    private StockDto mapToDto(Stock stock) {
+        StockDto dto = new StockDto();
+        dto.setId(stock.getId());
+        dto.setTicker(stock.getTicker());
+        dto.setCompanyName(stock.getCompanyName());
+        dto.setSector(stock.getSector());
+        dto.setActive(stock.isActive());
+        return dto;
+    }
+
+    private Stock mapToEntity(StockDto dto) {
+        Stock stock = new Stock();
+        stock.setTicker(dto.getTicker());
+        stock.setCompanyName(dto.getCompanyName());
+        stock.setSector(dto.getSector());
+        stock.setActive(dto.isActive());
+        return stock;
     }
 }
