@@ -1,3 +1,7 @@
+package com.example.demo.model;
+
+import jakarta.persistence.*;
+
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = "ticker"))
 public class Stock {
@@ -7,4 +11,5 @@ public class Stock {
     private String companyName;
     private String sector;
     private Boolean active = true;
+    // getters & setters
 }

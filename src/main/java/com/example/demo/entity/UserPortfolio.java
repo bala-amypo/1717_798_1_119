@@ -8,7 +8,7 @@ public class UserPortfolio {
     private Timestamp createdAt;
 
     @PrePersist
-    void created() {
+    void init() {
         createdAt = new Timestamp(System.currentTimeMillis());
     }
 }
