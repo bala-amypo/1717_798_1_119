@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = "ticker"))
-public class Stock {
+public class Stocks {
     @Id @GeneratedValue
     private Long id;
     private String ticker;
