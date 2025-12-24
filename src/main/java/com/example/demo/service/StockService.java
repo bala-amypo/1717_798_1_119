@@ -1,6 +1,5 @@
 @Service
 public class StockService {
-
     private final StockRepository repo;
 
     public StockService(StockRepository repo) {
