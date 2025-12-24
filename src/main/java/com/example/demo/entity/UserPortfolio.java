@@ -1,14 +1,14 @@
 @Entity
 public class UserPortfolio {
-    @Id @GeneratedValue
+
+    @Id
+    @GeneratedValue
     private Long id;
+
     private Long userId;
     private String portfolioName;
-    private Boolean active = true;
-    private Timestamp createdAt;
+    private boolean active = true;
 
     @PrePersist
-    void init() {
-        createdAt = new Timestamp(System.currentTimeMillis());
-    }
+    void created() { }
 }

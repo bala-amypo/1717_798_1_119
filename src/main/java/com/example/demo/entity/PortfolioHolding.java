@@ -1,6 +1,8 @@
 @Entity
 public class PortfolioHolding {
-    @Id @GeneratedValue
+
+    @Id
+    @GeneratedValue
     private Long id;
 
     @ManyToOne
@@ -10,6 +12,5 @@ public class PortfolioHolding {
     private Stock stock;
 
     private Double quantity;
-    private BigDecimal marketValue;
-    private Timestamp lastUpdated;
+    private java.math.BigDecimal marketValue;
 }

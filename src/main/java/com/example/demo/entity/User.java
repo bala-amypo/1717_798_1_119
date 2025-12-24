@@ -1,16 +1,15 @@
-package com.example.demo.model;
-
-import jakarta.persistence.*;
-import java.time.LocalDateTime;
-
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = "email"))
+@Table(name = "users")
 public class User {
-    @Id @GeneratedValue
+
+    @Id
+    @GeneratedValue
     private Long id;
-    private String fullName;
+
+    @Column(unique = true)
     private String email;
+
+    private String fullName;
     private String password;
     private String role = "MONITOR";
-    private LocalDateTime createdAt = LocalDateTime.now();
 }

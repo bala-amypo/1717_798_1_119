@@ -1,10 +1,14 @@
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = "thresholdName"))
 public class RiskThreshold {
-    @Id @GeneratedValue
+
+    @Id
+    @GeneratedValue
     private Long id;
+
+    @Column(unique = true)
     private String thresholdName;
+
     private Double maxSingleStockPercentage;
     private Double maxSectorPercentage;
-    private Boolean active = true;
+    private boolean active;
 }
