@@ -1,7 +1,8 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.User;
-import com.example.demo.service.UserService;
+import com.example.demo.dto.LoginRequest;
+import com.example.demo.dto.AuthResponse;
+import com.example.demo.security.JwtUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,16 +10,15 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/auth")
 public class AuthController {
 
-    private final UserService service;
+    private final JwtUtil jwtUtil = new JwtUtil("secret", 3600000);
 
-    public AuthController(UserService service) {
-        this.service = service;
-    }
-
-    // REQUIRED BY TESTS
-    @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody User user) {
-        User saved = service.register(user);
-        return ResponseEntity.ok(saved);
+    @PostMapping("/login")
+    public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request) {
+        String token = jwtUtil.generateToken(
+                request.getEmail(),
+                "USER",
+                1L
+        );
+        return ResponseEntity.ok(new AuthResponse(token));
     }
 }

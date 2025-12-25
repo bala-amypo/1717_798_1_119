@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.model.Stock;
 import com.example.demo.service.StockService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,33 +17,29 @@ public class StockController {
         this.service = service;
     }
 
-    // REQUIRED BY TESTS
     @PostMapping
-    public Stock createStock(@RequestBody Stock stock) {
-        return service.createStock(stock);
+    public ResponseEntity<Stock> createStock(@RequestBody Stock stock) {
+        return ResponseEntity.ok(service.createStock(stock));
     }
 
-    // REQUIRED BY TESTS
     @PutMapping("/{id}")
-    public Stock updateStock(@PathVariable long id, @RequestBody Stock stock) {
-        return service.updateStock(id, stock);
+    public ResponseEntity<Stock> updateStock(@PathVariable long id, @RequestBody Stock stock) {
+        return ResponseEntity.ok(service.updateStock(id, stock));
     }
 
-    // REQUIRED BY TESTS
     @GetMapping("/{id}")
-    public Stock getStock(@PathVariable long id) {
-        return service.getStock(id);
+    public ResponseEntity<Stock> getStock(@PathVariable long id) {
+        return ResponseEntity.ok(service.getStockById(id));
     }
 
-    // MUST RETURN List<Stock>
     @GetMapping
-    public List<Stock> getAllStocks() {
-        return service.getAllStocks();
+    public ResponseEntity<List<Stock>> getAllStocks() {
+        return ResponseEntity.ok(service.getAllStocks());
     }
 
-    // REQUIRED BY TESTS
     @DeleteMapping("/{id}")
-    public void deactivateStock(@PathVariable long id) {
+    public ResponseEntity<Void> deactivateStock(@PathVariable long id) {
         service.deactivateStock(id);
+        return ResponseEntity.ok().build();
     }
 }
