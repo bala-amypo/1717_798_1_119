@@ -10,7 +10,6 @@ public class UserPortfolio {
     private Long id;
 
     private Long userId;
-    private String name;
 
     public Long getId() { return id; }
 }

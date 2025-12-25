@@ -10,8 +10,6 @@ public class Stock {
     private Long id;
 
     private String ticker;
-    private String companyName;
-    private String sector;
     private Boolean active = true;
 
     public Long getId() { return id; }
