@@ -15,7 +15,7 @@ public class StockController {
     }
 
     @PostMapping
-    public Stock create(@RequestBody Stock s) {
-        return service.createStock(s);
+    public Stock create(@RequestBody Stock stock) {
+        return service.createStock(stock);
     }
 }

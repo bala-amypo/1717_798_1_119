@@ -1,14 +1,21 @@
+package com.example.demo.service;
+
+import com.example.demo.model.Stock;
+import com.example.demo.repository.StockRepository;
+import org.springframework.stereotype.Service;
+
 @Service
 public class StockService {
-    private final StockRepository repo;
 
-    public StockService(StockRepository repo) {
-        this.repo = repo;
+    private final StockRepository repository;
+
+    public StockService(StockRepository repository) {
+        this.repository = repository;
     }
 
-    public Stock createStock(Stock s) {
-        if (repo.findByTicker(s.getTicker()) != null)
-            throw new RuntimeException("Duplicate ticker");
-        return repo.save(s);
+    public Stock createStock(Stock stock) {
+        repository.findByTicker(stock.getTicker())
+                .ifPresent(s -> { throw new RuntimeException("Duplicate ticker"); });
+        return repository.save(stock);
     }
 }
