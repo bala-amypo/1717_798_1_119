@@ -15,45 +15,31 @@ public class StockService {
         this.repository = repository;
     }
 
-    // REQUIRED BY TESTS
     public Stock createStock(Stock stock) {
+        stock.setActive(true);
         return repository.save(stock);
     }
 
-    // REQUIRED BY TESTS (Object version)
-    public Stock updateStock(long id, Object stockData) {
-        if (stockData instanceof Stock) {
-            return updateStock(id, (Stock) stockData);
-        }
-        throw new IllegalArgumentException("Invalid stock data");
-    }
-
-    // REQUIRED BY TESTS (Stock version)
-    public Stock updateStock(long id, Stock updated) {
-        Stock existing = getStock(id);
-
-        existing.setTicker(updated.getTicker());
-        existing.setCompanyName(updated.getCompanyName());
-        existing.setSector(updated.getSector());
-        existing.setActive(updated.isActive());
-
+    public Stock updateStock(long id, Stock stock) {
+        Stock existing = getStockById(id);
+        existing.setTicker(stock.getTicker());
+        existing.setCompanyName(stock.getCompanyName());
+        existing.setSector(stock.getSector());
         return repository.save(existing);
     }
 
-    // REQUIRED BY TESTS
-    public Stock getStock(long id) {
+    // 🔥 THIS IS THE METHOD YOUR CONTROLLER IS SCREAMING FOR
+    public Stock getStockById(long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Stock not found"));
+                .orElseThrow(() -> new RuntimeException("Not found"));
     }
 
-    // MUST RETURN List<Stock> (NOT Iterable)
     public List<Stock> getAllStocks() {
-        return repository.findAll();
+        return (List<Stock>) repository.findAll();
     }
 
-    // REQUIRED BY TESTS
     public void deactivateStock(long id) {
-        Stock stock = getStock(id);
+        Stock stock = getStockById(id);
         stock.setActive(false);
         repository.save(stock);
     }
