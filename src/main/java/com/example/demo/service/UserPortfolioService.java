@@ -7,17 +7,20 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserPortfolioService {
 
-    private final UserPortfolioRepository repo;
+    private final UserPortfolioRepository repository;
 
-    public UserPortfolioService(UserPortfolioRepository repo) {
-        this.repo = repo;
+    public UserPortfolioService(UserPortfolioRepository repository) {
+        this.repository = repository;
     }
 
-    public UserPortfolio createPortfolio(UserPortfolio p) {
-        return repo.save(p);
+    // REQUIRED BY TESTS
+    public UserPortfolio createPortfolio(UserPortfolio portfolio) {
+        return repository.save(portfolio);
     }
 
-    public java.util.List<UserPortfolio> getPortfoliosByUser(Long userId) {
-        return repo.findByUserId(userId);
+    // REQUIRED BY TESTS
+    public UserPortfolio getPortfolioById(long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Portfolio not found"));
     }
 }

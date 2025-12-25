@@ -2,11 +2,11 @@ package com.example.demo.controller;
 
 import com.example.demo.model.UserPortfolio;
 import com.example.demo.service.UserPortfolioService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 
 @RestController
-@RequestMapping("/api/portfolios")
+@RequestMapping("/portfolios")
 public class UserPortfolioController {
 
     private final UserPortfolioService service;
@@ -15,13 +15,16 @@ public class UserPortfolioController {
         this.service = service;
     }
 
+    // REQUIRED BY TESTS
     @PostMapping
-    public UserPortfolio createPortfolio(@RequestBody UserPortfolio p) {
-        return service.createPortfolio(p);
+    public ResponseEntity<UserPortfolio> createPortfolio(@RequestBody UserPortfolio portfolio) {
+        UserPortfolio saved = service.createPortfolio(portfolio);
+        return ResponseEntity.ok(saved);
     }
 
-    @GetMapping("/user/{userId}")
-    public List<UserPortfolio> getByUser(@PathVariable Long userId) {
-        return service.getPortfoliosByUser(userId);
+    // REQUIRED BY TESTS
+    @GetMapping("/{id}")
+    public UserPortfolio getPortfolio(@PathVariable long id) {
+        return service.getPortfolioById(id);
     }
 }
