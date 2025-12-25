@@ -10,14 +10,9 @@ public class RiskAnalysisResult {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    private UserPortfolio portfolio;
-
     private Timestamp analysisDate;
-    private Double highestStockPercentage;
-    private Double highestSectorPercentage;
-    private Boolean isHighRisk;
-    private String notes;
+    private Boolean highRisk;
 
-    // getters & setters
+    public void setAnalysisDate(Timestamp t) { this.analysisDate = t; }
+    public void setHighRisk(Boolean v) { this.highRisk = v; }
 }

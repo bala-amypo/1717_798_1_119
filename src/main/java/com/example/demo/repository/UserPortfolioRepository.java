@@ -5,6 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface UserPortfolioRepository extends JpaRepository<UserPortfolio, Long> {
-    List<UserPortfolio> findByUserId(Long userId);
+    java.util.List<UserPortfolio> findByUserId(Long userId);
 }
-

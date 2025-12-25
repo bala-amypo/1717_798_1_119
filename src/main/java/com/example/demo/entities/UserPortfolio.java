@@ -1,7 +1,6 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import java.sql.Timestamp;
 
 @Entity
 public class UserPortfolio {
@@ -11,16 +10,7 @@ public class UserPortfolio {
     private Long id;
 
     private Long userId;
-    private String portfolioName;
-    private Boolean active = true;
+    private String name;
 
-    private Timestamp createdAt;
-    private Timestamp updatedAt;
-
-    @PrePersist
-    void onCreate() {
-        createdAt = new Timestamp(System.currentTimeMillis());
-    }
-
-    // getters & setters
+    public Long getId() { return id; }
 }

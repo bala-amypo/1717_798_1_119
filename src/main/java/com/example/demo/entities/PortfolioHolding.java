@@ -1,8 +1,6 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import java.math.BigDecimal;
-import java.sql.Timestamp;
 
 @Entity
 public class PortfolioHolding {
@@ -11,15 +9,7 @@ public class PortfolioHolding {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    private UserPortfolio portfolio;
-
-    @ManyToOne
-    private Stock stock;
-
     private Double quantity;
-    private BigDecimal marketValue;
-    private Timestamp lastUpdated;
 
-    // getters & setters
+    public Double getQuantity() { return quantity; }
 }

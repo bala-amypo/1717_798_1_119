@@ -1,21 +1,19 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = "email"))
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String fullName;
     private String email;
     private String password;
-    private String role = "MONITOR";
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private String role = "USER";
 
-    // getters & setters
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
+    public String getRole() { return role; }
 }

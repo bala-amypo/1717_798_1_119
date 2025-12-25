@@ -9,11 +9,5 @@ public class RiskThreshold {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String thresholdName;
-    private Double maxSingleStockPercentage;
-    private Double maxSectorPercentage;
     private Boolean active = true;
-
-    // getters & setters
 }
-    

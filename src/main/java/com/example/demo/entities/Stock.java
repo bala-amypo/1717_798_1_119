@@ -3,7 +3,6 @@ package com.example.demo.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = "ticker"))
 public class Stock {
 
     @Id
@@ -15,5 +14,9 @@ public class Stock {
     private String sector;
     private Boolean active = true;
 
-    // getters & setters
+    public Long getId() { return id; }
+    public String getTicker() { return ticker; }
+    public void setTicker(String ticker) { this.ticker = ticker; }
+    public Boolean getActive() { return active; }
+    public void setActive(Boolean active) { this.active = active; }
 }
