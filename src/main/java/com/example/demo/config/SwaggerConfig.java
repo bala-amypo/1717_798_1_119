@@ -4,18 +4,18 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.servers.Server;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
 import java.util.List;
 
 @Configuration
 public class SwaggerConfig {
 
     @Bean
-    public OpenAPI customOpenAPI() {
+    public OpenAPI openAPI() {
         return new OpenAPI()
-                .servers(List.of(
-                        new Server().url("https://9242.pro604cr.amypo.ai/")
-                ));
-        }
+                .servers(List.of(new Server().url("hhttps://9092.vs.amypo.ai")));
+    }
 }
+
 
 // //https://9092.vs.amypo.ai
