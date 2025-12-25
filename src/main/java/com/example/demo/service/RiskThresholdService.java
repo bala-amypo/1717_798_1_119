@@ -1,0 +1,24 @@
+package com.example.demo.service;
+
+import com.example.demo.model.RiskThreshold;
+import com.example.demo.repository.RiskThresholdRepository;
+import org.springframework.stereotype.Service;
+
+@Service
+public class RiskThresholdService {
+
+    private final RiskThresholdRepository repo;
+
+    public RiskThresholdService(RiskThresholdRepository repo) {
+        this.repo = repo;
+    }
+
+    public RiskThreshold createThreshold(RiskThreshold t) {
+        return repo.save(t);
+    }
+
+    public RiskThreshold getActiveThreshold() {
+        return repo.findByActiveTrue()
+                .orElseThrow(() -> new RuntimeException("Not found"));
+    }
+}
