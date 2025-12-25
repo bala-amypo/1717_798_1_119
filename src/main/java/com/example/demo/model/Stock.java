@@ -3,18 +3,20 @@ package com.example.demo.model;
 import jakarta.persistence.*;
 
 @Entity
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = "ticker"))
 public class Stock {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
     private String ticker;
-
     private String companyName;
     private String sector;
-    private boolean active = true;
+    private Boolean active = true;
 
-    // getters & setters
+    public Long getId() { return id; }
+    public String getTicker() { return ticker; }
+    public void setTicker(String ticker) { this.ticker = ticker; }
+    public Boolean getActive() { return active; }
 }

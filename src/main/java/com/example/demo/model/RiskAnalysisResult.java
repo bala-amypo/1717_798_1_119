@@ -1,14 +1,20 @@
+package com.example.demo.model;
+
+import jakarta.persistence.*;
+import java.sql.Timestamp;
+
 @Entity
 public class RiskAnalysisResult {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    private UserPortfolio portfolio;
+    private Timestamp analysisDate;
+    private Boolean highRisk;
+    private String notes;
 
-    private Double highestStockPercentage;
-    private Double highestSectorPercentage;
-    private Boolean isHighRisk;
+    public void setHighRisk(Boolean highRisk) {
+        this.highRisk = highRisk;
+    }
 }

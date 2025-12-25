@@ -1,7 +1,11 @@
 package com.example.demo.repository;
 
-import com.example.demo.model.Stock;
+import com.example.demo.model.RiskAnalysisResult;
 import org.springframework.data.jpa.repository.JpaRepository;
-public interface RiskAnalysisResultRepository extends JpaRepository<RiskAnalysisResult, Long> {
+import java.util.List;
+
+public interface RiskAnalysisResultRepository
+        extends JpaRepository<RiskAnalysisResult, Long> {
+
     List<RiskAnalysisResult> findByPortfolioId(Long portfolioId);
 }

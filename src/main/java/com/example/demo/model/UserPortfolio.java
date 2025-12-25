@@ -1,14 +1,25 @@
+package com.example.demo.model;
+
+import jakarta.persistence.*;
+import java.sql.Timestamp;
+
 @Entity
 public class UserPortfolio {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private Long userId;
     private String portfolioName;
-    private boolean active = true;
+    private Boolean active = true;
+
+    private Timestamp createdAt;
 
     @PrePersist
-    void created() { }
+    void onCreate() {
+        createdAt = new Timestamp(System.currentTimeMillis());
+    }
+
+    public Long getId() { return id; }
 }
