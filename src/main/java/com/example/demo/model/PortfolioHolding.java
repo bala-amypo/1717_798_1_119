@@ -16,10 +16,38 @@ public class PortfolioHolding {
     @ManyToOne
     private Stock stock;
 
-    private Double quantity;
+    private double quantity;
     private BigDecimal marketValue;
 
-    public Double getQuantity() {
+    public Long getId() {
+        return id;
+    }
+
+    public void setQuantity(double quantity) {
+        this.quantity = quantity;
+    }
+
+    public double getQuantity() {
         return quantity;
+    }
+
+    public void setMarketValue(BigDecimal marketValue) {
+        this.marketValue = marketValue;
+    }
+
+    public BigDecimal getMarketValue() {
+        return marketValue;
+    }
+
+    public UserPortfolio getPortfolio() {
+        return portfolio;
+    }
+
+    public Stock getStock() {
+        return stock;
+    }
+
+    public void setStock(Stock stock) {
+        this.stock = stock;
     }
 }
