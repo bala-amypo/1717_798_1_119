@@ -4,6 +4,8 @@ import com.example.demo.model.Stock;
 import com.example.demo.service.StockService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/stocks")
 public class StockController {
@@ -14,23 +16,33 @@ public class StockController {
         this.service = service;
     }
 
+    // REQUIRED BY TESTS
     @PostMapping
-    public Stock create(@RequestBody Stock stock) {
+    public Stock createStock(@RequestBody Stock stock) {
         return service.createStock(stock);
     }
 
-    @GetMapping("/{id}")
-    public Stock getById(@PathVariable Long id) {
-        return service.getStockById(id);
+    // REQUIRED BY TESTS
+    @PutMapping("/{id}")
+    public Stock updateStock(@PathVariable long id, @RequestBody Stock stock) {
+        return service.updateStock(id, stock);
     }
 
+    // REQUIRED BY TESTS
+    @GetMapping("/{id}")
+    public Stock getStock(@PathVariable long id) {
+        return service.getStock(id);
+    }
+
+    // MUST RETURN List<Stock>
     @GetMapping
-    public Iterable<Stock> getAll() {
+    public List<Stock> getAllStocks() {
         return service.getAllStocks();
     }
 
-    @PutMapping("/{id}/deactivate")
-    public void deactivate(@PathVariable Long id) {
+    // REQUIRED BY TESTS
+    @DeleteMapping("/{id}")
+    public void deactivateStock(@PathVariable long id) {
         service.deactivateStock(id);
     }
 }
