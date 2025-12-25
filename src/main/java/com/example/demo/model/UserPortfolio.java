@@ -1,45 +1,16 @@
 package com.example.demo.model;
 
-import jakarta.persistence.*;
-
-@Entity
 public class UserPortfolio {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private Long userId;
     private String portfolioName;
-    private boolean active = true;
+    private User user;
 
-    // ----- getters & setters -----
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public Long getId() {
-        return id;
-    }
+    public String getPortfolioName() { return portfolioName; }
+    public void setPortfolioName(String portfolioName) { this.portfolioName = portfolioName; }
 
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public String getPortfolioName() {
-        return portfolioName;
-    }
-
-    public void setPortfolioName(String portfolioName) {
-        this.portfolioName = portfolioName;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
+    public User getUser() { return user; }
+    public void setUser(User user) { this.user = user; }
 }
