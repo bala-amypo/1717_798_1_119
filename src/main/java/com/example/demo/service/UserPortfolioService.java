@@ -3,7 +3,6 @@ package com.example.demo.service;
 import com.example.demo.model.UserPortfolio;
 import com.example.demo.repository.UserPortfolioRepository;
 import org.springframework.stereotype.Service;
-import java.util.List;
 
 @Service
 public class UserPortfolioService {
@@ -14,11 +13,11 @@ public class UserPortfolioService {
         this.repo = repo;
     }
 
-    public UserPortfolio createPortfolio(UserPortfolio p) {
-        return repo.save(p);
+    public UserPortfolio save(UserPortfolio portfolio) {
+        return repo.save(portfolio);
     }
 
-    public List<UserPortfolio> getPortfoliosByUser(Long userId) {
-        return repo.findByUserId(userId);
+    public UserPortfolio getPortfolioById(long id) {
+        return repo.findById(id).orElseThrow();
     }
 }

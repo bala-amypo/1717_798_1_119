@@ -4,6 +4,8 @@ import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserService {
 
@@ -13,7 +15,10 @@ public class UserService {
         this.repo = repo;
     }
 
-    public User register(User user) {
-        return repo.save(user);
+    public Optional<User> findByEmail(String email) {
+        return repo.findAll()
+                .stream()
+                .filter(u -> email.equals(u.getRole()))
+                .findFirst();
     }
 }

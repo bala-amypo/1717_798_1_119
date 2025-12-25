@@ -4,29 +4,39 @@ import com.example.demo.model.Stock;
 import com.example.demo.repository.StockRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class StockService {
 
-    private final StockRepository repository;
+    private final StockRepository repo;
 
-    public StockService(StockRepository repository) {
-        this.repository = repository;
+    public StockService(StockRepository repo) {
+        this.repo = repo;
     }
 
     public Stock createStock(Stock stock) {
-        repository.findByTicker(stock.getTicker())
-                .ifPresent(s -> { throw new RuntimeException("Duplicate ticker"); });
-        return repository.save(stock);
+        return repo.save(stock);
     }
 
-    public Stock updateStock(Long id, Stock stock) {
-        Stock existing = getStockById(id);
-        existing.setTicker(stock.getTicker());
-        return repository.save(existing);
+    public Stock updateStock(long id, Stock stock) {
+        Stock s = repo.findById(id).orElseThrow();
+        s.setCompanyName(stock.getCompanyName());
+        s.setSector(stock.getSector());
+        return repo.save(s);
     }
 
-    public Stock getStockById(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Not found"));
+    public Stock getStockById(long id) {
+        return repo.findById(id).orElseThrow();
+    }
+
+    public List<Stock> getAllStocks() {
+        return repo.findAll();
+    }
+
+    public Stock deactivateStock(long id) {
+        Stock s = getStockById(id);
+        s.setActive(false);
+        return repo.save(s);
     }
 }
