@@ -1,4 +1,6 @@
 package com.example.demo.model;
+import java.time.LocalDateTime;
+private LocalDateTime createdAt;
 
 import jakarta.persistence.*;
 
@@ -19,6 +21,14 @@ public class User {
 
     public Long getId() {
         return id;
+    }
+    
+    public LocalDateTime getCreatedAt() {
+    return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+    this.createdAt = createdAt;
     }
 
     public void setId(Long id) {
