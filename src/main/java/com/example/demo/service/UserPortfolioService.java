@@ -23,8 +23,8 @@ public class UserPortfolioService {
         return repository.findById(id).orElseThrow();
     }
 
-    // 🔥 REQUIRED BY TESTS
+    // 🔥 TEST EXPECTS THIS METHOD NAME
     public List<UserPortfolio> getPortfoliosByUser(long userId) {
-        return repository.findByUserId(userId);
+        return repository.findByUser_Id(userId);
     }
 }
