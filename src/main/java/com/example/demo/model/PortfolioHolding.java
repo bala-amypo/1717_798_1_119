@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 public class PortfolioHolding {
@@ -9,7 +10,51 @@ public class PortfolioHolding {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Double quantity;
+    @ManyToOne
+    private UserPortfolio portfolio;
 
-    public Double getQuantity() { return quantity; }
+    @ManyToOne
+    private Stock stock;
+
+    private double quantity;
+
+    private BigDecimal marketValue;
+
+    // ----- getters & setters -----
+
+    public Long getId() {
+        return id;
+    }
+
+    public UserPortfolio getPortfolio() {
+        return portfolio;
+    }
+
+    public void setPortfolio(UserPortfolio portfolio) {
+        this.portfolio = portfolio;
+    }
+
+    public Stock getStock() {
+        return stock;
+    }
+
+    public void setStock(Stock stock) {
+        this.stock = stock;
+    }
+
+    public double getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(double quantity) {
+        this.quantity = quantity;
+    }
+
+    public BigDecimal getMarketValue() {
+        return marketValue;
+    }
+
+    public void setMarketValue(BigDecimal marketValue) {
+        this.marketValue = marketValue;
+    }
 }

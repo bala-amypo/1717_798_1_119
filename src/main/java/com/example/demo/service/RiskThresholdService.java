@@ -7,17 +7,19 @@ import org.springframework.stereotype.Service;
 @Service
 public class RiskThresholdService {
 
-    private final RiskThresholdRepository repo;
+    private final RiskThresholdRepository repository;
 
-    public RiskThresholdService(RiskThresholdRepository repo) {
-        this.repo = repo;
+    public RiskThresholdService(RiskThresholdRepository repository) {
+        this.repository = repository;
     }
 
-    public RiskThreshold createThreshold(RiskThreshold t) {
-        return repo.save(t);
+    // REQUIRED BY TESTS
+    public RiskThreshold createThreshold(RiskThreshold threshold) {
+        return repository.save(threshold);
     }
 
+    // REQUIRED BY TESTS
     public RiskThreshold getActiveThreshold() {
-        return repo.findByActiveTrue();
+        return repository.findByActiveTrue();
     }
 }

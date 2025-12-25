@@ -9,13 +9,19 @@ import java.util.List;
 @Service
 public class PortfolioHoldingService {
 
-    private final PortfolioHoldingRepository repo;
+    private final PortfolioHoldingRepository repository;
 
-    public PortfolioHoldingService(PortfolioHoldingRepository repo) {
-        this.repo = repo;
+    public PortfolioHoldingService(PortfolioHoldingRepository repository) {
+        this.repository = repository;
     }
 
-    public PortfolioHolding createHolding(PortfolioHolding h) {
-        return repo.save(h);
+    // REQUIRED BY TESTS
+    public PortfolioHolding createHolding(PortfolioHolding holding) {
+        return repository.save(holding);
+    }
+
+    // REQUIRED BY TESTS
+    public List<PortfolioHolding> getHoldingsByPortfolio(long portfolioId) {
+        return repository.findByPortfolioId(portfolioId);
     }
 }

@@ -11,8 +11,46 @@ public class RiskAnalysisResult {
     private Long id;
 
     private Timestamp analysisDate;
-    private Boolean highRisk;
+    private double highestStockPercentage;
+    private double highestSectorPercentage;
+    private boolean highRisk;
 
-    public void setAnalysisDate(Timestamp t) { this.analysisDate = t; }
-    public void setHighRisk(Boolean v) { this.highRisk = v; }
+    // ----- getters & setters -----
+
+    public Long getId() {
+        return id;
+    }
+
+    public Timestamp getAnalysisDate() {
+        return analysisDate;
+    }
+
+    public void setAnalysisDate(Timestamp analysisDate) {
+        this.analysisDate = analysisDate;
+    }
+
+    public double getHighestStockPercentage() {
+        return highestStockPercentage;
+    }
+
+    public void setHighestStockPercentage(double highestStockPercentage) {
+        this.highestStockPercentage = highestStockPercentage;
+    }
+
+    public double getHighestSectorPercentage() {
+        return highestSectorPercentage;
+    }
+
+    public void setHighestSectorPercentage(double highestSectorPercentage) {
+        this.highestSectorPercentage = highestSectorPercentage;
+    }
+
+    // ⚠️ METHOD NAME MUST BE isHighRisk()
+    public boolean isHighRisk() {
+        return highRisk;
+    }
+
+    public void setHighRisk(boolean highRisk) {
+        this.highRisk = highRisk;
+    }
 }
