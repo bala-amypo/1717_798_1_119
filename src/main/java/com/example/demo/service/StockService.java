@@ -18,4 +18,15 @@ public class StockService {
                 .ifPresent(s -> { throw new RuntimeException("Duplicate ticker"); });
         return repository.save(stock);
     }
+
+    public Stock updateStock(Long id, Stock stock) {
+        Stock existing = getStockById(id);
+        existing.setTicker(stock.getTicker());
+        return repository.save(existing);
+    }
+
+    public Stock getStockById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Not found"));
+    }
 }

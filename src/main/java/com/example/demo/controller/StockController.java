@@ -15,7 +15,17 @@ public class StockController {
     }
 
     @PostMapping
-    public Stock create(@RequestBody Stock stock) {
+    public Stock createStock(@RequestBody Stock stock) {
         return service.createStock(stock);
+    }
+
+    @PutMapping("/{id}")
+    public Stock updateStock(@PathVariable Long id, @RequestBody Stock stock) {
+        return service.updateStock(id, stock);
+    }
+
+    @GetMapping("/{id}")
+    public Stock getStock(@PathVariable Long id) {
+        return service.getStockById(id);
     }
 }
