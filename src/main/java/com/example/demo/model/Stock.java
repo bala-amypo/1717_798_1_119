@@ -1,7 +1,14 @@
 package com.example.demo.model;
 
+import jakarta.persistence.*;
+
+@Entity
 public class Stock {
+
+    @Id
+    @GeneratedValue
     private Long id;
+
     private String ticker;
     private String companyName;
     private String sector;
