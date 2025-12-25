@@ -16,27 +16,9 @@ public class StockService {
     }
 
     public Stock createStock(Stock stock) {
+        if (repo.findByTicker(stock.getTicker()).isPresent()) {
+            throw new RuntimeException("Duplicate ticker");
+        }
         return repo.save(stock);
-    }
-
-    public Stock updateStock(long id, Stock stock) {
-        Stock s = repo.findById(id).orElseThrow();
-        s.setCompanyName(stock.getCompanyName());
-        s.setSector(stock.getSector());
-        return repo.save(s);
-    }
-
-    public Stock getStockById(long id) {
-        return repo.findById(id).orElseThrow();
-    }
-
-    public List<Stock> getAllStocks() {
-        return repo.findAll();
-    }
-
-    public Stock deactivateStock(long id) {
-        Stock s = getStockById(id);
-        s.setActive(false);
-        return repo.save(s);
     }
 }

@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+import java.sql.Timestamp;
 
 @Entity
 public class RiskAnalysisResult {
@@ -9,26 +10,14 @@ public class RiskAnalysisResult {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Boolean highRisk;
+    @ManyToOne
+    private UserPortfolio portfolio;
+
+    private Timestamp analysisDate;
     private Double highestStockPercentage;
+    private Double highestSectorPercentage;
+    private Boolean isHighRisk;
+    private String notes;
 
-    public Long getId() {
-        return id;
-    }
-
-    public Boolean isHighRisk() {
-        return highRisk;
-    }
-
-    public void setHighRisk(Boolean highRisk) {
-        this.highRisk = highRisk;
-    }
-
-    public void setHighestStockPercentage(double highestStockPercentage) {
-        this.highestStockPercentage = highestStockPercentage;
-    }
-
-    public Double getHighestStockPercentage() {
-        return highestStockPercentage;
-    }
+    // getters & setters
 }
