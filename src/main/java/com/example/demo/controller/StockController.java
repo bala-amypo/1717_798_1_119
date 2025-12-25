@@ -2,24 +2,37 @@ package com.example.demo.controller;
 
 import com.example.demo.model.Stock;
 import com.example.demo.service.StockService;
-import org.springframework.http.ResponseEntity;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-@@RestController
+@RestController
 @RequestMapping("/api/stocks")
 @Tag(name = "Stocks")
 public class StockController {
 
-    private final StockService service;
+    private final StockService stockService;
 
-    public StockController(StockService service) {
-        this.service = service;
+    public StockController(StockService stockService) {
+        this.stockService = stockService;
     }
 
     @PostMapping
-    public Stock create(@RequestBody Stock stock) {
-        return service.createStock(stock);
+    public Stock createStock(@RequestBody Stock stock) {
+        return stockService.createStock(stock);
+    }
+
+    @GetMapping("/{id}")
+    public Stock getStock(@PathVariable Long id) {
+        return stockService.getStockById(id);
+    }
+
+    @GetMapping
+    public Iterable<Stock> getAllStocks() {
+        return stockService.getAllStocks();
+    }
+
+    @PutMapping("/{id}/deactivate")
+    public void deactivateStock(@PathVariable Long id) {
+        stockService.deactivateStock(id);
     }
 }

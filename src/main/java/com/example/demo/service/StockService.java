@@ -2,9 +2,8 @@ package com.example.demo.service;
 
 import com.example.demo.model.Stock;
 import com.example.demo.repository.StockRepository;
+import com.example.demo.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class StockService {
@@ -20,5 +19,20 @@ public class StockService {
             throw new RuntimeException("Duplicate ticker");
         }
         return repo.save(stock);
+    }
+
+    public Stock getStockById(Long id) {
+        return repo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Stock"));
+    }
+
+    public Iterable<Stock> getAllStocks() {
+        return repo.findAll();
+    }
+
+    public void deactivateStock(Long id) {
+        Stock stock = getStockById(id);
+        stock.setActive(false);
+        repo.save(stock);
     }
 }
