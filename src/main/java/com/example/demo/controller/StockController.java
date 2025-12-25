@@ -7,8 +7,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/stocks")
+@@RestController
+@RequestMapping("/api/stocks")
+@Tag(name = "Stocks")
 public class StockController {
 
     private final StockService service;
@@ -18,27 +19,7 @@ public class StockController {
     }
 
     @PostMapping
-    public ResponseEntity<Stock> createStock(@RequestBody Stock stock) {
-        return ResponseEntity.ok(service.createStock(stock));
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Stock> updateStock(@PathVariable long id, @RequestBody Stock stock) {
-        return ResponseEntity.ok(service.updateStock(id, stock));
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Stock> getStock(@PathVariable long id) {
-        return ResponseEntity.ok(service.getStockById(id));
-    }
-
-    @GetMapping
-    public ResponseEntity<List<Stock>> getAllStocks() {
-        return ResponseEntity.ok(service.getAllStocks());
-    }
-
-    @PutMapping("/deactivate/{id}")
-    public ResponseEntity<Stock> deactivateStock(@PathVariable long id) {
-        return ResponseEntity.ok(service.deactivateStock(id));
+    public Stock create(@RequestBody Stock stock) {
+        return service.createStock(stock);
     }
 }
