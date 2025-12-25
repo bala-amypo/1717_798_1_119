@@ -1,21 +1,15 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.PortfolioHolding;
 import com.example.demo.service.PortfolioHoldingService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/holdings")
+@RequestMapping("/holdings")
 public class PortfolioHoldingController {
 
-    private final PortfolioHoldingService service;
+    private final PortfolioHoldingService holdingService;
 
-    public PortfolioHoldingController(PortfolioHoldingService service) {
-        this.service = service;
-    }
-
-    @PostMapping
-    public PortfolioHolding create(@RequestBody PortfolioHolding h) {
-        return service.createHolding(h);
+    public PortfolioHoldingController(PortfolioHoldingService holdingService) {
+        this.holdingService = holdingService;
     }
 }

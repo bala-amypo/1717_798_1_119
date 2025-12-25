@@ -9,22 +9,19 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/portfolios")
 public class UserPortfolioController {
 
-    private final UserPortfolioService service;
+    private final UserPortfolioService portfolioService;
 
-    public UserPortfolioController(UserPortfolioService service) {
-        this.service = service;
+    public UserPortfolioController(UserPortfolioService portfolioService) {
+        this.portfolioService = portfolioService;
     }
 
-    // REQUIRED BY TESTS
     @PostMapping
     public ResponseEntity<UserPortfolio> createPortfolio(@RequestBody UserPortfolio portfolio) {
-        UserPortfolio saved = service.createPortfolio(portfolio);
-        return ResponseEntity.ok(saved);
+        return ResponseEntity.ok(portfolioService.createPortfolio(portfolio));
     }
 
-    // REQUIRED BY TESTS
     @GetMapping("/{id}")
-    public UserPortfolio getPortfolio(@PathVariable long id) {
-        return service.getPortfolioById(id);
+    public ResponseEntity<UserPortfolio> getPortfolio(@PathVariable Long id) {
+        return ResponseEntity.ok(portfolioService.getPortfolioById(id));
     }
 }

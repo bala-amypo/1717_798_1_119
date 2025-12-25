@@ -5,22 +5,17 @@ import com.example.demo.service.RiskThresholdService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/risk-thresholds")
+@RequestMapping("/risk-thresholds")
 public class RiskThresholdController {
 
-    private final RiskThresholdService service;
+    private final RiskThresholdService thresholdService;
 
-    public RiskThresholdController(RiskThresholdService service) {
-        this.service = service;
+    public RiskThresholdController(RiskThresholdService thresholdService) {
+        this.thresholdService = thresholdService;
     }
 
-    @PostMapping
-    public RiskThreshold create(@RequestBody RiskThreshold t) {
-        return service.createThreshold(t);
-    }
-
-    @GetMapping("/active")
-    public RiskThreshold getActive() {
-        return service.getActiveThreshold();
+    @PutMapping
+    public RiskThreshold update(@RequestBody RiskThreshold threshold) {
+        return thresholdService.updateThreshold(threshold);
     }
 }
