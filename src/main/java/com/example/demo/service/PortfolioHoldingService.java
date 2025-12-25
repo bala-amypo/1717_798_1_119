@@ -15,7 +15,7 @@ public class PortfolioHoldingService {
         this.repo = repo;
     }
 
-    public PortfolioHolding create(PortfolioHolding h) {
+    public PortfolioHolding createHolding(PortfolioHolding h) {
         return repo.save(h);
     }
 }

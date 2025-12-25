@@ -5,7 +5,6 @@ import com.example.demo.repository.RiskAnalysisResultRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
 @Service
 public class RiskAnalysisService {
 
@@ -15,7 +14,7 @@ public class RiskAnalysisService {
         this.repo = repo;
     }
 
-    public RiskAnalysisResult analyze() {
+    public RiskAnalysisResult analyzePortfolio(Long id) {
         RiskAnalysisResult r = new RiskAnalysisResult();
         r.setAnalysisDate(new java.sql.Timestamp(System.currentTimeMillis()));
         r.setHighRisk(false);

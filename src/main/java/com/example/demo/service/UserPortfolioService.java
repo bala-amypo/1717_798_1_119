@@ -13,7 +13,11 @@ public class UserPortfolioService {
         this.repo = repo;
     }
 
-    public UserPortfolio create(UserPortfolio p) {
+    public UserPortfolio createPortfolio(UserPortfolio p) {
         return repo.save(p);
+    }
+
+    public java.util.List<UserPortfolio> getPortfoliosByUser(Long userId) {
+        return repo.findByUserId(userId);
     }
 }
