@@ -15,7 +15,10 @@ public class RiskAnalysisService {
         this.repo = repo;
     }
 
-    public List<RiskAnalysisResult> getAnalysesForPortfolio(long portfolioId) {
-        return repo.findAll();
+    public RiskAnalysisResult analyze() {
+        RiskAnalysisResult r = new RiskAnalysisResult();
+        r.setAnalysisDate(new java.sql.Timestamp(System.currentTimeMillis()));
+        r.setHighRisk(false);
+        return repo.save(r);
     }
 }

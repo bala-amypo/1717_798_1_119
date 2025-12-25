@@ -13,11 +13,7 @@ public class UserPortfolioService {
         this.repo = repo;
     }
 
-    public UserPortfolio save(UserPortfolio portfolio) {
-        return repo.save(portfolio);
-    }
-
-    public UserPortfolio getPortfolioById(long id) {
-        return repo.findById(id).orElseThrow();
+    public UserPortfolio create(UserPortfolio p) {
+        return repo.save(p);
     }
 }

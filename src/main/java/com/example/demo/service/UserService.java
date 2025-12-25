@@ -15,10 +15,7 @@ public class UserService {
         this.repo = repo;
     }
 
-    public Optional<User> findByEmail(String email) {
-        return repo.findAll()
-                .stream()
-                .filter(u -> email.equals(u.getRole()))
-                .findFirst();
+    public User register(User u) {
+        return repo.save(u);
     }
 }

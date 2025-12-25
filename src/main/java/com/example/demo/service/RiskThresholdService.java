@@ -13,7 +13,7 @@ public class RiskThresholdService {
         this.repo = repo;
     }
 
-    public RiskThreshold save(RiskThreshold t) {
-        return repo.save(t);
+    public RiskThreshold active() {
+        return repo.findByActiveTrue();
     }
 }

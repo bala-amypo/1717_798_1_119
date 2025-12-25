@@ -15,7 +15,7 @@ public class PortfolioHoldingService {
         this.repo = repo;
     }
 
-    public List<PortfolioHolding> getHoldingsByPortfolio(long portfolioId) {
-        return repo.findAll();
+    public PortfolioHolding create(PortfolioHolding h) {
+        return repo.save(h);
     }
 }
