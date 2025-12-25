@@ -4,6 +4,8 @@ import com.example.demo.model.UserPortfolio;
 import com.example.demo.repository.UserPortfolioRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserPortfolioService {
 
@@ -13,14 +15,16 @@ public class UserPortfolioService {
         this.repository = repository;
     }
 
-    // REQUIRED BY TESTS
     public UserPortfolio createPortfolio(UserPortfolio portfolio) {
         return repository.save(portfolio);
     }
 
-    // REQUIRED BY TESTS
     public UserPortfolio getPortfolioById(long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Portfolio not found"));
+        return repository.findById(id).orElseThrow();
+    }
+
+    // 🔥 REQUIRED BY TESTS
+    public List<UserPortfolio> getPortfoliosByUser(long userId) {
+        return repository.findByUserId(userId);
     }
 }
