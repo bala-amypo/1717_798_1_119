@@ -1,4 +1,4 @@
-package com.example.demo.security;
+package com.example.security;
 
 public class JwtUtil {
 
@@ -11,7 +11,7 @@ public class JwtUtil {
     }
 
     public String extractEmail(String token) {
-        return "mock@mail.com";
+        return "abc@mail.com";
     }
 
     public String extractRole(String token) {
