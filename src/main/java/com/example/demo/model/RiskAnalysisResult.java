@@ -1,13 +1,14 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+
 import java.sql.Timestamp;
 
 @Entity
 public class RiskAnalysisResult {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
@@ -20,8 +21,6 @@ public class RiskAnalysisResult {
 
     public Timestamp getAnalysisDate() { return analysisDate; }
     public void setAnalysisDate(Timestamp analysisDate) { this.analysisDate = analysisDate; }
-    public Double getHighestStockPercentage() { return highestStockPercentage; }
-    public void setHighestStockPercentage(Double v) { this.highestStockPercentage = v; }
-    public boolean isHighRisk() { return Boolean.TRUE.equals(highRisk); }
+    public Boolean isHighRisk() { return highRisk; }
     public void setHighRisk(Boolean highRisk) { this.highRisk = highRisk; }
 }

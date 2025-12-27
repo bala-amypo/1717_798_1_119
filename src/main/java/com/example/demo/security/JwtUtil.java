@@ -1,9 +1,20 @@
 package com.example.demo.security;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class JwtUtil {
 
+    private final String secret;
+    private final long validityInMs;
+
+    public JwtUtil(String secret, long validityInMs) {
+        this.secret = secret;
+        this.validityInMs = validityInMs;
+    }
+
     public String generateToken(String email, String role, Long userId) {
-        return "mock.jwt.token";
+        return "test.jwt.token";
     }
 
     public boolean validateToken(String token) {
