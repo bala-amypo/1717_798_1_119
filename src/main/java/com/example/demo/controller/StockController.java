@@ -1,7 +1,7 @@
-package com.example.demo.controller;
+package com.example.stock.controller;
 
-import com.example.demo.model.Stock;
-import com.example.demo.service.StockService;
+import com.example.common.model.Stock;
+import com.example.stock.service.StockService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/stocks")
-@Tag(name = "Stock Controller")
+@Tag(name = "Stock Module")
 public class StockController {
 
     private final StockService stockService;

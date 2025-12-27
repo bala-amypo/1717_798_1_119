@@ -1,6 +1,6 @@
-package com.example.demo.service;
+package com.example.stock.service;
 
-import com.example.demo.model.Stock;
+import com.example.common.model.Stock;
 import java.util.List;
 
 public interface StockService {
