@@ -3,5 +3,8 @@ package com.example.demo.service;
 import com.example.demo.model.RiskThreshold;
 
 public interface RiskThresholdService {
-    RiskThreshold updateThreshold(RiskThreshold threshold);
+
+    RiskThreshold saveThreshold(RiskThreshold threshold);
+
+    RiskThreshold getThreshold();
 }

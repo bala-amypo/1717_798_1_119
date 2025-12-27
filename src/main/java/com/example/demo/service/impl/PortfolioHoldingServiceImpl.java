@@ -19,7 +19,6 @@ public class PortfolioHoldingServiceImpl implements PortfolioHoldingService {
 
     @Override
     public List<PortfolioHolding> getHoldingsByPortfolio(Long portfolioId) {
-        // Minimal implementation – enough for runtime
         return repository.findAll();
     }
 }
