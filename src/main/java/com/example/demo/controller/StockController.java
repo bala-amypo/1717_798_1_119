@@ -1,16 +1,15 @@
-package com.example.stock.controller;
+package com.example.demo.controller;
 
-import com.example.common.model.Stock;
-import com.example.stock.service.StockService;
-import io.swagger.v3.oas.annotations.tags.Tag;
+import com.example.demo.model.Stock;
+import com.example.demo.service.StockService;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/stocks")
-@Tag(name = "Stock Module")
+@RequestMapping("/api/stocks")
 public class StockController {
 
     private final StockService stockService;
@@ -25,9 +24,8 @@ public class StockController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Stock> updateStock(
-            @PathVariable Long id,
-            @RequestBody Stock stock) {
+    public ResponseEntity<Stock> updateStock(@PathVariable Long id,
+                                             @RequestBody Stock stock) {
         return ResponseEntity.ok(stockService.updateStock(id, stock));
     }
 
