@@ -1,4 +1,5 @@
-package com.example.demo.model;
+import com.example.demo.model.Stock;
+
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
