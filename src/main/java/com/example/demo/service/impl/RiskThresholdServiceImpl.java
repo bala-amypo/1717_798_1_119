@@ -20,6 +20,12 @@ public class RiskThresholdServiceImpl implements RiskThresholdService {
         return repository.save(threshold);
     }
 
+    // ✅ REQUIRED BY CONTROLLER
+    @Override
+    public RiskThreshold updateThreshold(RiskThreshold threshold) {
+        return repository.save(threshold);
+    }
+
     @Override
     public RiskThreshold getThreshold() {
         return repository.findAll().stream().findFirst().orElse(null);

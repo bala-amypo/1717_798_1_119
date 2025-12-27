@@ -6,5 +6,8 @@ public interface RiskThresholdService {
 
     RiskThreshold saveThreshold(RiskThreshold threshold);
 
+    // ✅ ADD THIS
+    RiskThreshold updateThreshold(RiskThreshold threshold);
+
     RiskThreshold getThreshold();
 }
