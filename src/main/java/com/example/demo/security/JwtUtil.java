@@ -5,9 +5,16 @@ import org.springframework.stereotype.Component;
 @Component
 public class JwtUtil {
 
-    private final String secret;
-    private final long validityInMs;
+    private String secret;
+    private long validityInMs;
 
+    // ✅ REQUIRED FOR SPRING BOOT RUNTIME
+    public JwtUtil() {
+        this.secret = "dummy-secret";
+        this.validityInMs = 3600000L; // 1 hour
+    }
+
+    // ✅ STILL USED BY TESTS (Mockito)
     public JwtUtil(String secret, long validityInMs) {
         this.secret = secret;
         this.validityInMs = validityInMs;
