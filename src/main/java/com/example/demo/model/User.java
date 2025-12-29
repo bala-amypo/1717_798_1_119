@@ -19,7 +19,17 @@ public class User {
 
     private LocalDateTime createdAt;
 
-    /* ===== REQUIRED BY TESTS ===== */
+    /* ===== REQUIRED BY TESTS & SERVICES ===== */
+
+    // 🔴 REQUIRED by AuthService / JwtUtil usage
+    public Long getId() {
+        return id;
+    }
+
+    // (Setter optional but safe to include)
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getEmail() {
         return email;
@@ -29,7 +39,7 @@ public class User {
         this.email = email;
     }
 
-    public String getPassword() {            // OPTIONAL but clean
+    public String getPassword() { // Used in login tests
         return password;
     }
 

@@ -4,7 +4,6 @@ import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.security.JwtUtil;
 import com.example.demo.service.AuthService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -13,20 +12,16 @@ import java.time.LocalDateTime;
 public class AuthServiceImpl implements AuthService {
 
     private final UserRepository userRepository;
-    private final BCryptPasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
 
-    public AuthServiceImpl(UserRepository userRepository,
-                           BCryptPasswordEncoder passwordEncoder,
-                           JwtUtil jwtUtil) {
+    public AuthServiceImpl(UserRepository userRepository, JwtUtil jwtUtil) {
         this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
         this.jwtUtil = jwtUtil;
     }
 
     @Override
     public User signup(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        // ❗ NO hashing – keep simple
         user.setCreatedAt(LocalDateTime.now());
         return userRepository.save(user);
     }
@@ -37,11 +32,11 @@ public class AuthServiceImpl implements AuthService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Invalid credentials"));
 
-        if (!passwordEncoder.matches(password, user.getPassword())) {
+        if (!password.equals(user.getPassword())) {
             throw new RuntimeException("Invalid credentials");
         }
 
-        // 🔴 THIS MUST MATCH JwtUtil METHOD SIGNATURE
+        // 🔴 Tests expect this exact call
         return jwtUtil.generateToken(
                 user.getEmail(),
                 user.getRole(),
