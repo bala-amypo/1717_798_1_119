@@ -8,7 +8,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin("*")
+@CrossOrigin(origins = "*")
 public class AuthController {
 
     private final JwtUtil jwtUtil;
@@ -18,20 +18,30 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public Map<String, String> login(@RequestBody Map<String, String> req) {
+    public Map<String, Object> login(@RequestBody Map<String, Object> req) {
+
+        // 🔐 Safe extraction (avoids NPE)
+        String email = req.get("email") != null
+                ? req.get("email").toString()
+                : "test@mail.com";
+
         String token = jwtUtil.generateToken(
-                req.get("email"),
+                email,
                 "ADMIN",
                 1L
         );
 
-        Map<String, String> response = new HashMap<>();
+        Map<String, Object> response = new HashMap<>();
         response.put("token", token);
+        response.put("type", "Bearer");
+        response.put("email", email);
+
         return response;
     }
 
     @PostMapping("/signup")
-    public Map<String, String> signup(@RequestBody Map<String, String> req) {
-        return login(req); // same token logic
+    public Map<String, Object> signup(@RequestBody Map<String, Object> req) {
+        // 🚀 For practice: signup behaves like login
+        return login(req);
     }
 }
