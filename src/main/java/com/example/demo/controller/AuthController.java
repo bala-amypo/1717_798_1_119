@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.AuthRequest;
 import com.example.demo.security.JwtUtil;
 import org.springframework.web.bind.annotation.*;
 
@@ -8,7 +9,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin(origins = "*")
+@CrossOrigin("*")
 public class AuthController {
 
     private final JwtUtil jwtUtil;
@@ -18,11 +19,10 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public Map<String, Object> login(@RequestBody Map<String, Object> req) {
+    public Map<String, Object> login(@RequestBody AuthRequest req) {
 
-        // 🔐 Safe extraction (avoids NPE)
-        String email = req.get("email") != null
-                ? req.get("email").toString()
+        String email = req.getEmail() != null
+                ? req.getEmail()
                 : "test@mail.com";
 
         String token = jwtUtil.generateToken(
@@ -40,8 +40,7 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public Map<String, Object> signup(@RequestBody Map<String, Object> req) {
-        // 🚀 For practice: signup behaves like login
+    public Map<String, Object> signup(@RequestBody AuthRequest req) {
         return login(req);
     }
 }
