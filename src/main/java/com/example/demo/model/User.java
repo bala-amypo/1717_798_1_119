@@ -10,7 +10,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
 
     private String password;
@@ -19,18 +19,12 @@ public class User {
 
     private LocalDateTime createdAt;
 
-    /* ===== REQUIRED BY TESTS & SERVICES ===== */
-
-    // 🔴 REQUIRED by AuthService / JwtUtil usage
+    // ✅ REQUIRED
     public Long getId() {
         return id;
     }
 
-    // (Setter optional but safe to include)
-    public void setId(Long id) {
-        this.id = id;
-    }
-
+    // ✅ REQUIRED BY TESTS
     public String getEmail() {
         return email;
     }
@@ -39,11 +33,12 @@ public class User {
         this.email = email;
     }
 
-    public String getPassword() { // Used in login tests
+    // ✅ REQUIRED BY TESTS
+    public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) { // 🔴 REQUIRED BY TEST
+    public void setPassword(String password) {
         this.password = password;
     }
 
